@@ -1,0 +1,86 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Net.Mail;
+
+namespace WebApplication1
+{
+    public partial class WebForm6 : System.Web.UI.Page
+    {
+        private string cs = ConfigurationManager.ConnectionStrings["connect"].ConnectionString;
+        SqlConnection conn;
+        SqlCommand comm;
+        SqlDataAdapter adp;
+        DataTable dt = new DataTable();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            conn = new SqlConnection(cs);
+            Label1.Visible = false;
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            using (comm = new SqlCommand("select * from student_master where  email_id=@email_id and password_=@password_", conn))
+            {
+                comm.Parameters.AddWithValue("@email_id", TextBox1.Text);
+                comm.Parameters.AddWithValue("@password_", TextBox2.Text);
+                using (adp = new SqlDataAdapter(comm))
+                {
+                    adp.Fill(dt);
+                }
+
+                if (dt.Rows.Count > 0)
+                {
+                    Session["msg"] = TextBox1.Text;
+                    Response.Redirect("student_home.aspx");
+                }
+            }
+            Label1.Visible = true;
+        }
+
+        protected void LinkButton1_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("registration.aspx");
+        }
+
+        protected void LinkButton2_Click(object sender, EventArgs e)
+        {
+            if (TextBox1.Text == "")
+            {
+                Response.Write("<script>alert('Enter email id!!')</script>");
+            }
+            else
+            {
+                string email = TextBox1.Text;
+                DataTable dt = new DataTable();
+                using (SqlCommand cmd = new SqlCommand("select password_ from student_master where email_id=@email_id", conn))
+                {
+                    cmd.Parameters.AddWithValue("@email_id", email);
+                    using (SqlDataAdapter adp = new SqlDataAdapter(cmd))
+                    {
+                        adp.Fill(dt);
+                    }
+                }
+                string password = dt.Rows[0].ItemArray[0].ToString();
+                SmtpClient smtpserver = new SmtpClient();
+                MailMessage mail = new MailMessage();
+                smtpserver.Credentials = new System.Net.NetworkCredential("project.tpo@gmail.com", "1234ABCD$");
+                smtpserver.Port = 587;
+                smtpserver.EnableSsl = true;
+                smtpserver.Host = "smtp.gmail.com";
+                mail = new MailMessage();
+                mail.From = new MailAddress("project.tpo@gmail.com");
+                mail.To.Add(email);
+                mail.Subject = "Registration Details";
+                mail.Body = "Your Login-id is : " + email + "\n" + "Your Password is : " + password;
+                smtpserver.Send(mail);
+            }
+        }
+    }
+}

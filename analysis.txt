@@ -1,0 +1,283 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Web.UI.DataVisualization.Charting;
+
+namespace WebApplication1
+{
+    public partial class WebForm13 : System.Web.UI.Page
+    {
+        private string cs = ConfigurationManager.ConnectionStrings["connect"].ConnectionString;
+        SqlConnection conn;
+        SqlCommand comm;
+        SqlDataAdapter adp;
+        DataTable dt = new DataTable();
+        double bigdata1, snmr1, stqa1, csm1;
+        double bigdata2, snmr2, stqa2, csm2, bigdata_session, snmr_session, stqa_session, csm_session;
+        double sub_perf, ut_perf, att_perf;
+        DataTable dt9 = new DataTable();
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            conn = new SqlConnection(cs);
+            if (Session["id"] == null)
+            {
+                Response.Redirect("login.aspx");
+            }
+            else
+            {
+
+                Label1.Visible = false;
+                GridView2.Visible = false;
+            }
+        }
+
+        protected void LinkButton1_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("admin_home.aspx");
+        }
+
+        protected void LinkButton2_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("review.aspx");
+        }
+
+        protected void LinkButton6_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Student_Prediction.aspx");
+        }
+
+        protected void LinkButton3_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("marks_att.aspx");
+        }
+
+        protected void LinkButton4_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Session.Clear();
+            Response.Redirect("login.aspx");
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            GridView2.Visible = true;
+            Label1.Visible = true;
+            using (SqlCommand ccd6 = new SqlCommand("truncate table perf_transaction", conn))
+            {
+                conn.Open();
+                ccd6.ExecuteNonQuery();
+                conn.Close();
+            }
+            using (SqlCommand ccd6 = new SqlCommand("truncate table tmp_data", conn))
+            {
+                conn.Open();
+                ccd6.ExecuteNonQuery();
+                conn.Close();
+            }
+
+            DataTable dt1 = new DataTable();
+            //for ut average
+
+            using (SqlCommand cd1 = new SqlCommand("select * from ut_marks_master", conn))
+            {
+                using (SqlDataAdapter adp1 = new SqlDataAdapter(cd1))
+                {
+                    adp1.Fill(dt1);
+                }
+            }
+            double[] ut_bigdata = new double[dt1.Rows.Count];
+            double[] ut_snmr = new double[dt1.Rows.Count];
+            double[] ut_stqa = new double[dt1.Rows.Count];
+            double[] ut_csm = new double[dt1.Rows.Count];
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                bigdata1 = Convert.ToDouble(dt1.Rows[i].ItemArray[4]);
+                snmr1 = Convert.ToDouble(dt1.Rows[i].ItemArray[5]);
+                stqa1 = Convert.ToDouble(dt1.Rows[i].ItemArray[6]);
+                csm1 = Convert.ToDouble(dt1.Rows[i].ItemArray[7]);
+                ut_bigdata[i] = (bigdata1 / 100) * 100;
+                ut_snmr[i] = (snmr1 / 100) * 100;
+                ut_stqa[i] = (stqa1 / 100) * 100;
+                ut_csm[i] = (csm1 / 100) * 100;
+            }//-->
+
+            //for attendance
+            DataTable dt2 = new DataTable();
+            using (SqlCommand cd2 = new SqlCommand("select * from attendance_master", conn))
+            {
+                using (SqlDataAdapter adp2 = new SqlDataAdapter(cd2))
+                {
+                    adp2.Fill(dt2);
+                }
+            }
+            double[] att_bigdata = new double[dt2.Rows.Count];
+            double[] att_snmr = new double[dt2.Rows.Count];
+            double[] att_stqa = new double[dt2.Rows.Count];
+            double[] att_csm = new double[dt2.Rows.Count];
+            for (int i = 0; i < dt2.Rows.Count; i++)
+            {
+                bigdata2 = Convert.ToDouble(dt2.Rows[i].ItemArray[4]);
+                snmr2 = Convert.ToDouble(dt2.Rows[i].ItemArray[5]);
+                stqa2 = Convert.ToDouble(dt2.Rows[i].ItemArray[6]);
+                csm2 = Convert.ToDouble(dt2.Rows[i].ItemArray[7]);
+                bigdata_session = Convert.ToDouble(dt2.Rows[i].ItemArray[8]);
+                snmr_session = Convert.ToDouble(dt2.Rows[i].ItemArray[9]);
+                stqa_session = Convert.ToDouble(dt2.Rows[i].ItemArray[10]);
+                csm_session = Convert.ToDouble(dt2.Rows[i].ItemArray[11]);
+                att_bigdata[i] = (bigdata2 / bigdata_session) * 100;
+                att_snmr[i] = (snmr2 / snmr_session) * 100;
+                att_stqa[i] = (stqa2 / stqa_session) * 100;
+                att_csm[i] = (csm2 / csm_session) * 100;
+            }
+
+            //for test marks
+
+            DataTable dt3 = new DataTable();
+            using (SqlCommand cd3 = new SqlCommand("select email_id from student_master", conn))
+            {
+                using (SqlDataAdapter adp3 = new SqlDataAdapter(cd3))
+                {
+                    adp3.Fill(dt3);
+                }
+            }
+            //DataTable dt5 = new DataTable();
+            for (int i = 0; i < dt3.Rows.Count; i++)
+            {
+
+                //    using (SqlCommand cd5 = new SqlCommand("select count(*) from student_test as s,question_master as q where q.question_id=s.question_id and q.correct_answer=s.answer and student_id=@student_id and subject_=@subject_", conn))
+                //    {
+                //        cd5.Parameters.AddWithValue("@student_id", dt3.Rows[i].ItemArray[0]);
+                //        cd5.Parameters.AddWithValue("@subject_", DropDownList2.SelectedValue);
+                //        using (SqlDataAdapter adp5 = new SqlDataAdapter(cd5))
+                //        {
+                //            adp5.Fill(dt5);
+                //        }
+                //    }
+                //for calculation of performance value
+
+                if (DropDownList2.SelectedValue == "bigdata")
+                {
+                    ut_perf = ut_bigdata[i];
+                    att_perf = att_bigdata[i];
+                }
+                else if (DropDownList2.SelectedValue == "snmr")
+                {
+
+                    ut_perf = ut_snmr[i];
+                    att_perf = att_snmr[i];
+                }
+                else if (DropDownList2.SelectedValue == "stqa")
+                {
+
+                    ut_perf = ut_stqa[i];
+                    att_perf = att_stqa[i];
+
+                }
+                else if (DropDownList2.SelectedValue == "csm")
+                {
+
+                    ut_perf = ut_csm[i];
+                    att_perf = att_csm[i];
+                }
+                double total_avg = ((ut_perf + att_perf) / 2);
+
+
+                using (SqlCommand cd6 = new SqlCommand("insert into perf_transaction(stud_name, email_id, ut_avg, att_avg, total_avg,subject_) values(@stud_name, @email_id, @ut_avg, @att_avg, @total_avg,@subject_)", conn))
+                {
+                    cd6.Parameters.AddWithValue("@stud_name", dt2.Rows[i].ItemArray[2]);
+                    cd6.Parameters.AddWithValue("@email_id", dt2.Rows[i].ItemArray[3]);
+                    cd6.Parameters.AddWithValue("@ut_avg", ut_perf);
+                    cd6.Parameters.AddWithValue("@att_avg", att_perf);
+
+                    cd6.Parameters.AddWithValue("@total_avg", total_avg);
+                    cd6.Parameters.AddWithValue("@subject_", DropDownList2.SelectedValue);
+                    conn.Open();
+                    cd6.ExecuteNonQuery();
+                    conn.Close();
+                }
+
+            }
+
+
+            //for graph
+            DataTable dt7 = new DataTable();
+            using (SqlCommand cd7 = new SqlCommand("select id_,total_avg from perf_transaction where subject_=@subject_", conn))
+            {
+                cd7.Parameters.AddWithValue("@subject_", DropDownList2.SelectedValue);
+                using (SqlDataAdapter adp7 = new SqlDataAdapter(cd7))
+                {
+                    adp7.Fill(dt7);
+                }
+
+            }
+            string[] x = new string[dt7.Rows.Count];
+            int[] y = new int[dt7.Rows.Count];
+            for (int i = 0; i < dt7.Rows.Count; i++)
+            {
+                x[i] = dt7.Rows[i].ItemArray[0].ToString();
+                y[i] = Convert.ToInt32(dt7.Rows[i].ItemArray[1]);
+            }
+            Chart1.Series[0].Points.DataBindXY(x, y);
+            string status_ = "";
+            for (int i = 0; i < dt7.Rows.Count; i++)
+            {
+                double classify = Convert.ToDouble(dt7.Rows[i].ItemArray[1]);
+                if (classify >= 0 && classify < 30)
+                {
+                    status_ = "DROPOUT";
+                }
+                else if (classify >= 30 && classify < 55)
+                {
+                    status_ = "AVERAGE";
+                }
+                else if (classify >  55)
+                {
+                    status_ = "GOOD";
+                }
+                using (SqlCommand cd8 = new SqlCommand("insert into tmp_data(name_, status_) values(@name_, @status_)", conn))
+                {
+                    cd8.Parameters.AddWithValue("@name_", dt7.Rows[i].ItemArray[0]);
+                    cd8.Parameters.AddWithValue("@status_", status_.ToString());
+                    conn.Open();
+                    cd8.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+            using (SqlCommand cd9 = new SqlCommand("select * from tmp_data", conn))
+            {
+                using (SqlDataAdapter adp9 = new SqlDataAdapter(cd9))
+                {
+                    adp9.Fill(dt9);
+                }
+            }
+            GridView2.DataSource = dt9;
+            GridView2.DataBind();
+        }
+
+        protected void LinkButton6_Click1(object sender, EventArgs e)
+        {
+            Response.Redirect("upload.aspx");
+        }
+
+        protected void LinkButton4_Click1(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Session.Clear();
+            Response.Redirect("../home.aspx");
+        }
+
+        protected void LinkButton4_Click2(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Session.Clear();
+            Response.Redirect("../home.aspx");
+        }
+    }
+}

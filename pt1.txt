@@ -1,0 +1,219 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true"
+    CodeBehind="periodical.aspx.cs" Inherits="WebApplication1.WebForm18" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style type="text/css">
+        .auto-style1 {
+            height: 26px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    &nbsp;|
+    <asp:HyperLink ID="HyperLink1" runat="server" ForeColor="Blue" NavigateUrl="~/student/student_home.aspx">HOME</asp:HyperLink>
+&nbsp;|
+    <asp:HyperLink ID="HyperLink2" runat="server" ForeColor="Blue" NavigateUrl="~/student/download.aspx">DOWNLOAD</asp:HyperLink>
+&nbsp;|
+    <asp:HyperLink ID="HyperLink3" runat="server" ForeColor="Blue" NavigateUrl="~/student/collegefeedback.aspx">COLLEGE FEEDBACK</asp:HyperLink>
+&nbsp;|
+    <asp:HyperLink ID="HyperLink4" runat="server" ForeColor="Blue" NavigateUrl="~/student/review.aspx">SURVEY</asp:HyperLink>
+&nbsp;|
+    <asp:HyperLink ID="HyperLink5" runat="server" ForeColor="Blue" NavigateUrl="~/student/pt2.aspx">PT2</asp:HyperLink>
+&nbsp;|
+    <asp:HyperLink ID="HyperLink6" runat="server" ForeColor="Blue" NavigateUrl="~/student/login.aspx">LOGOUT</asp:HyperLink>
+&nbsp;|<table>
+        <tr>
+            <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                ROLL NO
+            </td>
+            <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                :
+            </td>
+            <td>
+                <br />
+                <br />
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox1"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                Q1.A
+            </td>
+            <td>
+                <br />
+                :
+            </td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox2"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                Q1.B
+            </td>
+            <td>
+                <br />
+                :
+            </td>
+            <td>
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox3"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                Q1.C
+            </td>
+            <td>
+                <br />
+                :
+            </td>
+            <td>
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox4"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td class="auto-style1">
+                <br />
+                Q2.A
+            </td>
+            <td class="auto-style1">
+                <br />
+                :
+            </td>
+            <td class="auto-style1">
+                &nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox5" runat="server"></asp:TextBox>
+            </td>
+            <td class="auto-style1">
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox5"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                Q2.B
+            </td>
+            <td>
+                <br />
+                :
+            </td>
+            <td>
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox6" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox6"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                Q2.C
+            </td>
+            <td>
+                <br />
+                :
+            </td>
+            <td>
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox7" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox7"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                Q3.A
+            </td>
+            <td>
+                <br />
+                :
+            </td>
+            <td>
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox8" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox8"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                Q3.B
+            </td>
+            <td>
+                <br />
+                :
+            </td>
+            <td>
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="TextBox9" runat="server"></asp:TextBox>
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ErrorMessage="*"
+                    ForeColor="Red" ControlToValidate="TextBox9"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <br />
+&nbsp;&nbsp;&nbsp;
+                <asp:Button ID="Button1" runat="server" Text="SUBMIT" OnClick="Button1_Click" BackColor="#006600" ForeColor="White" Height="29px" Width="97px" />
+            </td>
+        </tr>
+    </table>
+</asp:Content>

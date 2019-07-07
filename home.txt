@@ -1,0 +1,42 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="WebApplication1.WebForm1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <p align="center">
+        <h1>T'APPRENTICE !!</h1>
+    </p>
+    <br />
+    <p align="justify">
+        T'APPRENTICE refers to teacher's assistant. The main issue faced in today’s world for an education institute is to enter the student data manually into the system which is very time consuming for the staff. Also another dominant issue faced is security. The student data that is entered can be spurious data due to human erratum.
+        <br />
+        <br />
+        Peculiar data of student is gathered like their marks, feedbacks and course exit data through the surveys and forms. This data 
+
+is then stored in the internal database. The data from the database can be exported to another database or excel file which is further used for analysis.
+
+The analysis is done depending on the stipulation of the faculty to enhance the performance of the students. 
+    <br />
+        <br />
+        Performance analysis can be conducted on the data possessed such as analyzing the periodic test marks to know about the understanding of the student for a respective subject, analyzing the feedbacks of the student to revamp the teaching-learning process. 
+
+Our project not only acts as a website and analyze the collected data but also:
+    <br />
+        <br />
+        <ul>
+            &nbsp;
+            <li>Provides efficiency </li>
+
+            &nbsp;
+            <li>Minimizes the burden of faculty </li>
+
+            &nbsp;
+            <li>Improves the teaching learning process </li>
+
+            &nbsp;
+            <li>Monitors the activity of students </li>
+        </ul>
+    </p>
+
+
+</asp:Content>
